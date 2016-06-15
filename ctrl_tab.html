@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+  <title>Plugins for Geany</title>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+</head>
+
+<body>
+
+<h2>
+Ctrl+Tab Plugin for Geany
+</h2>
+
+<h3>
+About
+</h3>
+<p>
+Ctrl+Tab is a plugin for Geany that provides a dialog for rapid switching to last used document(s).
+</p>
+  
+<h3>
+Installation
+</h3>
+
+<p>
+Download the plugin from https://github.com/leifmariposa/geany-ctrl-tab-plugin
+</p>
+<p>
+Then run the following commands:<br/>
+  make<br/>
+  sudo make install
+</p>
+
+<h3>
+Usage
+</h3>
+<p>
+After having enabled the plugin inside Geany through Geany's plugin manager,
+you'll need to setup a keybinding for triggering the Ctrl+Tab dialog. Go to
+the preferences, and under the keybindings tab set the Ctrl+Tab keybinding to &lt;Primary&gt;Tab. 
+Restart Geany after having enabled the plugin or the plugin will not have registered the opened documents correctly.<br/>
+
+Using the plugin is simple. Press Ctrl+Tab and the dialog will be shown, with the 
+last activated document already selected, so if that is the document that you 
+want release the keys and the document will be activated.
+If you want to switch to any other document keep the Control key down while cycling 
+through the documents with the Tab key.
+You can also use Ctrl+Shift+Tab to cycle through the documents in reverse order.
+Another possibility is to use the arrow keys while keeping the Control key down, this way 
+it is also possible to select any of the tool windows listed on the left side of the dialog.
+If selecting any of the tool windows the same document will still be activated but focus is 
+moved to the selected tool window.<br/>
+
+<div align="center">
+<img src="https://raw.githubusercontent.com/leifmariposa/geany-ctrl-tab-plugin/master/screenshots/screenshot.png" alt="Geany Ctrl+Tab Plugin" />
+</div>
+</p>
+
+<h3>
+Contact developer
+</h3>
+<p>
+Leif Persson &lt;leifmariposa(at)hotmail(dot)com&gt;
+</p>
+
+</body>
+</html>

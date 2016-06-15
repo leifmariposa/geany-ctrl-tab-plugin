@@ -1,53 +1,27 @@
-#Ctrl+Tab Plugin for Geany
+Ctrl+Tab Plugin for Geany
+=========================
 
-<p class="topic-title first">
-Contents
-</p>
-<ul class="simple">
-<li>
-<a class="reference internal" href="#about" id="id1" name="id1">About</a>
-</li>
-<li>
-<a class="reference internal" href="#installation" id="id1" name="id1">Installation</a>
-</li>
-<li>
-<a class="reference internal" href="#usage" id="id2" name="id2">Usage</a>
-</li>
-<li>
-<a class="reference internal" href="#contact-developers" id="id4" name="id4">Contact developers</a>
-</li>
-</ul>
-</div>
-<div class="section" id="about">
-<h3>
 About
-</h3>
-<p>
+-----------
+
 Ctrl-Tab is a plugin for Geany that provides a dialog for rapid switching to last used document(s).
-</p>
-</div>
-<div class="section" id="installation">
-  
-<h3>
-Installation
-</h3>
 
-<p>Download the plugin from https://github.com/leifmariposa/geany-ctrl-tab-plugin
-</p>
-<p>
-  
-  
-Then run the following commands:<br/>
-  make<br/>
-  sudo make install
-</p>
 
-</div>
-<div class="section" id="usage">
-<h3>
-Usage
-</h3>
-<p>
+Building and Installing
+-----------------------
+
+Download the plugin from https://github.com/leifmariposa/geany-ctrl-tab-plugin
+
+Then run the following commands:
+
+```bash
+$ make
+$ sudo make install
+```
+
+Using the Plugin
+----------------
+
 After having enabled the plugin inside Geany through Geany's plugin manager,
 you'll need to setup a keybinding for triggering the Ctrl-Tab dialog. Go to
 the preferences, and under the Keybindings tab set the Ctrl+Tab keybinding to `<Primary>Tab`. 
@@ -62,21 +36,28 @@ You can also use Ctrl+Shift+Tab to cycle through the documents in reverse order.
 Another possibility is to use the arrow keys while keeping the Control key down, this way 
 it is also possible to select any of the tool windows listed on the left side of the dialog.
 If selecting any of the tool windows the same document will still be activated but focus is 
-moved to the selected tool window.<br>
-
-<img src="https://github.com/leifmariposa/geany-ctrl-tab-plugin/blob/master/screenshots/screenshot.png" alt="Geany Ctrl+Tab Plugin" />
-</p>
-
-</div>
-</div>
-<div class="section" id="contact-developers">
-<h3>
-Contact developers
-</h3>
-<p>
-Samy Badjoudj &lt;leifmariposa(at)hotmail(dot)com&gt;
-</p>
-</div>
+moved to the selected tool window.
 
 
+![Overview plugin screenshot with light theme](https://github.com/leifmariposa/geany-ctrl-tab-plugin/blob/master/screenshots/screenshot.png?raw=true)
 
+License
+----------------
+
+This plugin is distributed under the terms of the GNU General Public License
+as published by the Free Software Foundation, either version 2 of the
+License, or (at your option) any later version. You should have received a copy
+of the GNU General Public License along with this plugin.  If not, see
+<http://www.gnu.org/licenses/>. 
+
+Contact
+----------------
+
+You can email me at <leifmariposa(at)hotmail(dot)com>
+ 
+ 
+Bug reports and feature requests
+----------------
+
+To report a bug or ask for a new feature, please use the tracker
+on GitHub: https://github.com/leifmariposa/geany-ctrl-tab-plugin/issues
