@@ -4,7 +4,7 @@ Ctrl+Tab Plugin for Geany
 About
 -----------
 
-Ctrl-Tab is a plugin for Geany that provides a dialog for rapid switching to last used document(s).
+Ctrl+Tab is a plugin for Geany that provides a dialog for rapid switching to last used document(s).
 
 
 Building and Installing
@@ -23,7 +23,7 @@ Using the Plugin
 ----------------
 
 After having enabled the plugin inside Geany through Geany's plugin manager,
-you'll need to setup a keybinding for triggering the Ctrl-Tab dialog. Go to
+you'll need to setup a keybinding for triggering the Ctrl+Tab dialog. Go to
 the preferences, and under the Keybindings tab set the Ctrl+Tab keybinding to `<Primary>Tab`. 
 Restart Geany after having enabled the plugin or the plugin will not have registered the opened documents correctly.
 
@@ -53,7 +53,7 @@ of the GNU General Public License along with this plugin.  If not, see
 Contact
 ----------------
 
-You can email me at <leifmariposa(at)hotmail(dot)com>
+You can email me at &lt;leifmariposa(at)hotmail(dot)com&gt;
  
  
 Bug reports and feature requests
