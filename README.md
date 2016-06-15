@@ -1,78 +1,82 @@
-Ctrl+Tab Plugin for Geany
-=========================
+#Ctrl+Tab Plugin for Geany
 
+<p class="topic-title first">
+Contents
+</p>
+<ul class="simple">
+<li>
+<a class="reference internal" href="#about" id="id1" name="id1">About</a>
+</li>
+<li>
+<a class="reference internal" href="#installation" id="id1" name="id1">Installation</a>
+</li>
+<li>
+<a class="reference internal" href="#usage" id="id2" name="id2">Usage</a>
+</li>
+<li>
+<a class="reference internal" href="#contact-developers" id="id4" name="id4">Contact developers</a>
+</li>
+</ul>
+</div>
+<div class="section" id="about">
+<h3>
 About
------------
-
+</h3>
+<p>
 Ctrl-Tab is a plugin for Geany that provides a dialog for rapid switching to last used document(s).
+</p>
+</div>
+<div class="section" id="installation">
+  
+<h3>
+Installation
+</h3>
 
-The Overview plugin is a small zoomed-out view next to the normal editor view
-that allows to see and navigate a lot of the file at once. It is similar to
-the Minimap in SublimeText or such similar feature in numerous other editors.
+<p>Download the plugin from https://github.com/leifmariposa/geany-ctrl-tab-plugin
+</p>
+<p>
+  
+  
+Then run the following commands:<br/>
+  make<br/>
+  sudo make install
+</p>
 
-Screenshots
------------
-
-This screenshot shows with a light theme, the overview's overlay is inverted,
-and the regular scrollbar is not shown. The optional tooltip can be seen
-(partially cut-off) in the screenshot also. It shows the line, column and
-offset information of the location of the mouse cursor.
-
-![Overview plugin screenshot with light theme](https://github.com/leifmariposa/geany-ctrl-tab-plugin/blob/master/screenshots/screenshot.png?raw=true)
-
-Building and Installing
------------------------
-
-Download the plugin https://github.com/samyBadjoudj/geany-qop-plugin
-
-The run the following commands:
-
-```bash
-$ make
-$ sudo make install
-```
-
-Using the Plugin
-----------------
-
+</div>
+<div class="section" id="usage">
+<h3>
+Usage
+</h3>
+<p>
 After having enabled the plugin inside Geany through Geany's plugin manager,
 you'll need to setup a keybinding for triggering the Ctrl-Tab dialog. Go to
 the preferences, and under the Keybindings tab set the Ctrl+Tab keybinding to `<Primary>Tab`. 
+Restart Geany after having enabled the plugin or the plugin will not have registered the opened documents correctly.
 
-Using the plugin is simple. Press Ctrl+Tab and the dialog will be shown with the 
+Using the plugin is simple. Press Ctrl+Tab and the dialog will be shown, with the 
 last activated document already selected, so if that is the document that you 
 want release the keys and the document will be activated.
 If you want to switch to any other document keep the Control key down while cycling 
 through the documents with the Tab key.
+You can also use Ctrl+Shift+Tab to cycle through the documents in reverse order.
+Another possibility is to use the arrow keys while keeping the Control key down, this way 
+it is also possible to select any of the tool windows listed on the left side of the dialog.
+If selecting any of the tool windows the same document will still be activated but focus is 
+moved to the selected tool window.<br>
 
-The Overview uses a really simple alogrithm that
-seems to work quite well. When you click on the overview, it jumps to the
-corresponding location in the main editor view and scrolls it into view. When
-you scroll on it, it actually just does the same thing, except it jumps to
-each location really quickly as the mouse moves, simulating a scrolling
-effect. If the scrolling behaviour feels a little weird at first, this is
-probably why.
+<img src="https://github.com/leifmariposa/geany-ctrl-tab-plugin/blob/master/screenshots/screenshot.png" alt="Geany Ctrl+Tab Plugin" />
+</p>
 
-Scrolling the main editor view causes the overview to update it's overlay to
-show which part of the file is visible in the main editor.
+</div>
+</div>
+<div class="section" id="contact-developers">
+<h3>
+Contact developers
+</h3>
+<p>
+Samy Badjoudj &lt;leifmariposa(at)hotmail(dot)com&gt;
+</p>
+</div>
 
-License
-----------------
 
-This plugin is distributed under the terms of the GNU General Public License
-as published by the Free Software Foundation, either version 2 of the
-License, or (at your option) any later version. You should have received a copy
-of the GNU General Public License along with this plugin.  If not, see
-<http://www.gnu.org/licenses/>. 
 
-Contact
-----------------
-
-You can email me at <leifmariposa(at)hotmail(dot)com>
- 
- 
-Bug reports and feature requests
-----------------
-
-To report a bug or ask for a new feature, please use the tracker
-on GitHub: https://github.com/leifmariposa/geany-ctrl-tab-plugin/issues
