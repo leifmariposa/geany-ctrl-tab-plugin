@@ -38,8 +38,7 @@ it is also possible to select any of the tool windows listed on the left side of
 If selecting any of the tool windows the same document will still be activated but focus is 
 moved to the selected tool window.
 
-
-![Overview plugin screenshot with light theme](https://github.com/leifmariposa/geany-ctrl-tab-plugin/blob/master/screenshots/screenshot.png?raw=true)
+![screenshot](https://github.com/leifmariposa/geany-ctrl-tab-plugin/blob/master/screenshots/screenshot.png?raw=true)
 
 License
 ----------------
