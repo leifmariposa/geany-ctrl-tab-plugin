@@ -177,15 +177,15 @@ static GtkTreeModel* get_files()
 						if (strcmp(doc->file_type->title, "None") == 0)
 							gtk_list_store_set(store, &iter, COL_ICON, "", -1);
 						else
-							gtk_list_store_set(store, &iter, COL_ICON, g_strdup(GTK_STOCK_FILE), -1);
+							gtk_list_store_set(store, &iter, COL_ICON, GTK_STOCK_FILE, -1);
 					}
 					else
 					{
-						gtk_list_store_set(store, &iter, COL_ICON, g_strdup(GTK_STOCK_REDO), -1);
+						gtk_list_store_set(store, &iter, COL_ICON, GTK_STOCK_REDO, -1);
 					}
 
-					gtk_list_store_set(store, &iter, COL_SHORT_NAME, g_strdup(basename(doc->file_name)), -1);
-					gtk_list_store_set(store, &iter, COL_FILE_NAME, g_strdup(doc->file_name), -1);
+					gtk_list_store_set(store, &iter, COL_SHORT_NAME, basename(doc->file_name), -1);
+					gtk_list_store_set(store, &iter, COL_FILE_NAME, doc->file_name, -1);
 				}
 				else
 				{
@@ -194,9 +194,9 @@ static GtkTreeModel* get_files()
 					gtk_list_store_set(store, &iter, COL_FILE_NAME, "", -1);
 				}
 
-				gtk_list_store_set(store, &iter, COL_FILE_TYPE, g_strdup(doc->file_type->name), -1);
-				gtk_list_store_set(store, &iter, COL_REAL_PATH, g_strdup(doc->real_path), -1);
-				gtk_list_store_set(store, &iter, COL_FILE_TITLE, g_strdup(doc->file_type->title), -1);
+				gtk_list_store_set(store, &iter, COL_FILE_TYPE, doc->file_type->name, -1);
+				gtk_list_store_set(store, &iter, COL_REAL_PATH, doc->real_path, -1);
+				gtk_list_store_set(store, &iter, COL_FILE_TITLE, doc->file_type->title, -1);
 				gtk_list_store_set(store, &iter, COL_CHANGED, doc->changed, -1);
 				gtk_list_store_set(store, &iter, COL_TOOL_WINDOW_LOCATION, NONE, -1);
 				gtk_list_store_set(store, &iter, COL_TOOL_WINDOW_TAB, 0, -1);
@@ -328,6 +328,10 @@ gboolean view_selection_func(G_GNUC_UNUSED GtkTreeSelection *selection,
 				gtk_label_set_text(GTK_LABEL(tree_data->plugin_data->label_real_path), dirname(g_strdup(real_path)));
 				gtk_label_set_text(GTK_LABEL(tree_data->plugin_data->label_real_path_desc), "Real Path:");
 			}
+			g_free(short_name);
+			g_free(file_title);
+			g_free(file_name);
+			g_free(real_path);
 		}
 	}
 
@@ -362,13 +366,9 @@ void age_cell_data_function(G_GNUC_UNUSED GtkTreeViewColumn *col,
                             G_GNUC_UNUSED gpointer user_data)
 {
 	gchar *short_name;
-	gchar *file_name;
-	gchar *real_path;
 	gboolean changed;
 	gtk_tree_model_get(model, iter,
 		COL_SHORT_NAME, &short_name,
-		COL_FILE_NAME, &file_name,
-		COL_REAL_PATH, &real_path,
 		COL_CHANGED, &changed,
 		-1);
 
@@ -380,6 +380,8 @@ void age_cell_data_function(G_GNUC_UNUSED GtkTreeViewColumn *col,
 		g_object_set(renderer, "foreground-set", FALSE, NULL); /* Normal color */
 
 	g_object_set(renderer, "text", short_name, NULL);
+
+	g_free(short_name);
 }
 
 
@@ -449,14 +451,13 @@ void activate_selected_function_and_quit(struct PLUGIN_DATA *plugin_data)
 	{
 		GtkTreePath *path = NULL;
 		gtk_tree_view_get_cursor(GTK_TREE_VIEW(plugin_data->tool_windows_tree.tree_view), &path, NULL);
-		if (path) 
+		if (path)
 		{
 			guint location;
 			guint tool_window_tab;
 
 			GtkTreeIter iter;
 			gtk_tree_model_get_iter(plugin_data->tool_windows_tree.model, &iter, path);
-			gtk_tree_path_free(path);
 
 			gtk_tree_model_get(plugin_data->tool_windows_tree.model, &iter,
 				COL_TOOL_WINDOW_LOCATION, &location,
@@ -467,6 +468,8 @@ void activate_selected_function_and_quit(struct PLUGIN_DATA *plugin_data)
 				activate_tool_window(GTK_NOTEBOOK(geany_plugin->geany_data->main_widgets->sidebar_notebook), tool_window_tab);
 			else if (location == MESSAGE_WINDOW)
 				activate_tool_window(GTK_NOTEBOOK(geany_plugin->geany_data->main_widgets->message_window_notebook), tool_window_tab);
+
+			gtk_tree_path_free(path);
 		}
 	}
 	else if (gtk_widget_has_focus(plugin_data->files_tree.tree_view))
@@ -494,6 +497,8 @@ void activate_selected_function_and_quit(struct PLUGIN_DATA *plugin_data)
 					gtk_notebook_set_current_page(GTK_NOTEBOOK(geany_plugin->geany_data->main_widgets->notebook), document_get_notebook_page(doc));
 					gtk_widget_grab_focus(GTK_WIDGET(doc->editor->sci));
 				}
+				g_free(file_name);
+				g_free(real_path);
 			}
 			gtk_tree_path_free(path);
 		}
@@ -646,7 +651,7 @@ gboolean move_selection_to_other_tree(struct TREE_DATA *from, struct TREE_DATA *
 {
 	D(log_debug("%s:%s", __FILE__, __FUNCTION__));
 
-	if (gtk_widget_has_focus(from->tree_view) && 
+	if (gtk_widget_has_focus(from->tree_view) &&
 		gtk_tree_model_iter_n_children(to->model, NULL) > 0)
 	{
 		GtkTreePath *path = NULL;
@@ -654,9 +659,10 @@ gboolean move_selection_to_other_tree(struct TREE_DATA *from, struct TREE_DATA *
 		if (path)
 		{
 			gtk_tree_view_set_cursor(GTK_TREE_VIEW(to->tree_view), path, NULL, FALSE);
-			gtk_tree_path_free(path);
 			gtk_tree_selection_unselect_all(from->selection);
 			gtk_widget_grab_focus(to->tree_view);
+
+			gtk_tree_path_free(path);
 		}
 		return TRUE;
 	}
@@ -680,22 +686,28 @@ gboolean move_selection(struct PLUGIN_DATA *plugin_data, enum direction dir)
 		GtkTreeIter last_iter;
 
 		gtk_tree_view_get_cursor(GTK_TREE_VIEW(tree_data->tree_view), &path, NULL);
-		last_iter = get_last_iter(GTK_TREE_VIEW(tree_data->tree_view));
-		if (gtk_tree_selection_iter_is_selected(tree_data->selection, &last_iter))
-			return TRUE;
+		if(path != NULL)
+		{
+			last_iter = get_last_iter(GTK_TREE_VIEW(tree_data->tree_view));
+			if(gtk_tree_selection_iter_is_selected(tree_data->selection, &last_iter))
+				return TRUE;
 
-		gtk_tree_path_next(path);
+			gtk_tree_path_next(path);
+		}
 	}
 	else if (dir == DIRECTION_UP)
 	{
 		GtkTreeIter first_iter;
 
 		gtk_tree_view_get_cursor(GTK_TREE_VIEW(tree_data->tree_view), &path, NULL);
-		first_iter = get_first_iter(GTK_TREE_VIEW(tree_data->tree_view));
-		if (gtk_tree_selection_iter_is_selected(tree_data->selection, &first_iter))
-			return TRUE;
+		if(path != NULL)
+		{
+			first_iter = get_first_iter(GTK_TREE_VIEW(tree_data->tree_view));
+			if(gtk_tree_selection_iter_is_selected(tree_data->selection, &first_iter))
+				return TRUE;
 
-		gtk_tree_path_prev(path);
+			gtk_tree_path_prev(path);
+		}
 	}
 
 	if (path)
@@ -893,7 +905,7 @@ int launch_widget(void)
 		gtk_tree_path_free(path);
 		gtk_widget_grab_focus(plugin_data->tool_windows_tree.tree_view);
     }
-    else  
+    else
     {
 		/* Move one down because that was the previous used file */
 		move_selection(plugin_data, DIRECTION_DOWN);
