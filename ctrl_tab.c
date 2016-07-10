@@ -359,11 +359,11 @@ static void create_model(struct TREE_DATA *tree_data, GtkTreeModel *list)
 
 
 /**********************************************************************/
-void age_cell_data_function(G_GNUC_UNUSED GtkTreeViewColumn *col,
-                            GtkCellRenderer *renderer,
-                            GtkTreeModel *model,
-                            GtkTreeIter *iter,
-                            G_GNUC_UNUSED gpointer user_data)
+void render_cell(G_GNUC_UNUSED GtkTreeViewColumn *col,
+				 GtkCellRenderer *renderer,
+				 GtkTreeModel *model,
+				 GtkTreeIter *iter,
+				 G_GNUC_UNUSED gpointer user_data)
 {
 	gchar *short_name;
 	gboolean changed;
@@ -476,29 +476,20 @@ void activate_selected_function_and_quit(struct PLUGIN_DATA *plugin_data)
 	{
 		GtkTreePath *path = NULL;
 		gtk_tree_view_get_cursor(GTK_TREE_VIEW(plugin_data->files_tree.tree_view ), &path, NULL);
-		if (path != NULL)
+		if(path != NULL)
 		{
 			GtkTreeIter iter;
-			if (gtk_tree_model_get_iter(plugin_data->files_tree.model, &iter, path))
+			if(gtk_tree_model_get_iter(plugin_data->files_tree.model, &iter, path))
 			{
 				GeanyDocument *doc;
-				gchar *file_name = NULL;
-				gchar *real_path = NULL;
 				guint id = 0;
-				gtk_tree_model_get(plugin_data->files_tree.model, &iter,
-					COL_FILE_NAME, &file_name,
-					COL_REAL_PATH, &real_path,
-					COL_DOCUMENT_ID, &id,
-					-1);
-
+				gtk_tree_model_get(plugin_data->files_tree.model, &iter, COL_DOCUMENT_ID, &id, -1);
 				doc = document_find_by_id(id);
-				if (doc && doc->is_valid)
+				if(doc && doc->is_valid)
 				{
 					gtk_notebook_set_current_page(GTK_NOTEBOOK(geany_plugin->geany_data->main_widgets->notebook), document_get_notebook_page(doc));
 					gtk_widget_grab_focus(GTK_WIDGET(doc->editor->sci));
 				}
-				g_free(file_name);
-				g_free(real_path);
 			}
 			gtk_tree_path_free(path);
 		}
@@ -589,7 +580,7 @@ static void create_tree_view(struct TREE_DATA *tree_data)
 	renderer = gtk_cell_renderer_text_new();
 	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(tree_data->tree_view ), -1, "file_name", renderer, "text", COL_SHORT_NAME, NULL);
 	column = gtk_tree_view_get_column(GTK_TREE_VIEW(tree_data->tree_view ), COL_SHORT_NAME);
-	gtk_tree_view_column_set_cell_data_func(column, renderer, age_cell_data_function, NULL, NULL);
+	gtk_tree_view_column_set_cell_data_func(column, renderer, render_cell, NULL, NULL);
 
 	renderer = gtk_cell_renderer_text_new();
 	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(tree_data->tree_view ), -1, "full_file_name", renderer, "text", COL_FILE_NAME, NULL);
