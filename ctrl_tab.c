@@ -31,6 +31,7 @@ static const char *PLUGIN_NAME = "Ctrl+Tab";
 static const char *PLUGIN_DESCRIPTION = "A Ctrl+Tab replacement";
 static const char *PLUGIN_VERSION = "0.1";
 static const char *PLUGIN_AUTHOR = "Leif Persson <leifmariposa@hotmail.com>";
+static const char *PLUGIN_KEY_NAME = "ctrl_tab";
 static const int   WINDOW_WIDTH = 720;
 static const int   WINDOW_HEIGHT = 500;
 
@@ -360,10 +361,10 @@ static void create_model(struct TREE_DATA *tree_data, GtkTreeModel *list)
 
 /**********************************************************************/
 void render_cell(G_GNUC_UNUSED GtkTreeViewColumn *col,
-				 GtkCellRenderer *renderer,
-				 GtkTreeModel *model,
-				 GtkTreeIter *iter,
-				 G_GNUC_UNUSED gpointer user_data)
+								 GtkCellRenderer *renderer,
+								 GtkTreeModel *model,
+								 GtkTreeIter *iter,
+								 G_GNUC_UNUSED gpointer user_data)
 {
 	gchar *short_name;
 	gboolean changed;
@@ -503,9 +504,9 @@ void activate_selected_function_and_quit(struct PLUGIN_DATA *plugin_data)
 
 /**********************************************************************/
 void view_on_row_activated(G_GNUC_UNUSED GtkTreeView *treeview,
-                            G_GNUC_UNUSED GtkTreePath *path,
-                            G_GNUC_UNUSED GtkTreeViewColumn *col,
-                            gpointer data)
+													 G_GNUC_UNUSED GtkTreePath *path,
+													 G_GNUC_UNUSED GtkTreeViewColumn *col,
+													 gpointer data)
 {
 	struct PLUGIN_DATA *plugin_data = data;
 
@@ -517,8 +518,8 @@ void view_on_row_activated(G_GNUC_UNUSED GtkTreeView *treeview,
 
 /**********************************************************************/
 gboolean tree_view_focus_out_event(G_GNUC_UNUSED GtkWidget *widget,
-                                    G_GNUC_UNUSED GdkEvent  *event,
-                                    gpointer user_data)
+																	 G_GNUC_UNUSED GdkEvent  *event,
+																	 gpointer user_data)
 {
 	struct TREE_DATA *tree_data = user_data;
 
@@ -532,8 +533,8 @@ gboolean tree_view_focus_out_event(G_GNUC_UNUSED GtkWidget *widget,
 
 /**********************************************************************/
 gboolean view_on_button_pressed(G_GNUC_UNUSED GtkWidget *treeview,
-                                 GdkEventButton *event,
-                                 gpointer userdata)
+																GdkEventButton *event,
+																gpointer userdata)
 {
 	struct TREE_DATA *tree_data = userdata;
 
@@ -754,8 +755,8 @@ static gboolean on_key_press(GtkWidget *widget, GdkEventKey *event, gpointer dat
 
 /**********************************************************************/
 static gboolean on_key_release(G_GNUC_UNUSED GtkWidget *widget,
-                                     G_GNUC_UNUSED GdkEventKey *event,
-                                     gpointer data)
+															 G_GNUC_UNUSED GdkEventKey *event,
+															 gpointer data)
 {
 	struct PLUGIN_DATA * plugin_data = data;
 
@@ -774,9 +775,9 @@ static gboolean on_key_release(G_GNUC_UNUSED GtkWidget *widget,
 
 
 /**********************************************************************/
-static gboolean quit_ctr(G_GNUC_UNUSED GtkWidget *widget,
-                        G_GNUC_UNUSED GdkEvent *event,
-                        G_GNUC_UNUSED gpointer data)
+static gboolean on_quit(G_GNUC_UNUSED GtkWidget *widget,
+												G_GNUC_UNUSED GdkEvent *event,
+												G_GNUC_UNUSED gpointer data)
 {
 	return FALSE;
 }
@@ -784,13 +785,13 @@ static gboolean quit_ctr(G_GNUC_UNUSED GtkWidget *widget,
 
 /**********************************************************************/
 GtkWidget *add_label(GtkWidget *grid,
-                     const gchar *text,
-                     guint left_attach,
-                     guint right_attach,
-                     guint top_attach,
-                     guint bottom_attach,
-                     GtkAttachOptions xoptions,
-                     const gchar *markup)
+										 const gchar *text,
+										 guint left_attach,
+										 guint right_attach,
+										 guint top_attach,
+										 guint bottom_attach,
+										 GtkAttachOptions xoptions,
+										 const gchar *markup)
 {
 	GtkWidget *label;
 
@@ -880,7 +881,7 @@ int launch_widget(void)
 	gtk_window_set_resizable(GTK_WINDOW(plugin_data->main_window), FALSE);
 	gtk_widget_set_size_request(plugin_data->main_window, WINDOW_WIDTH, WINDOW_HEIGHT);
 	gtk_window_set_position(GTK_WINDOW(plugin_data->main_window), GTK_WIN_POS_CENTER);
-	g_signal_connect(plugin_data->main_window, "delete_event", G_CALLBACK(quit_ctr), plugin_data);
+	g_signal_connect(plugin_data->main_window, "delete_event", G_CALLBACK(on_quit), plugin_data);
 	g_signal_connect(plugin_data->main_window, "key-press-event", G_CALLBACK(on_key_press), plugin_data);
 	g_signal_connect(plugin_data->main_window, "key-release-event", G_CALLBACK(on_key_release), plugin_data);
 
@@ -918,14 +919,14 @@ static void keyboard_activate(G_GNUC_UNUSED guint key_id)
 
 
 /**********************************************************************/
-static gboolean ctr_init(GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdata)
+static gboolean init(GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdata)
 {
 	GeanyKeyGroup *key_group;
 
 	D(log_debug("%s:%s", __FILE__, __FUNCTION__));
 
-	key_group = plugin_set_key_group(plugin, "ctrl_tab", KB_COUNT, NULL);
-	keybindings_set_item(key_group, KB_CTRL_TAB, keyboard_activate, 0, 0, "ctrl_tab", PLUGIN_NAME, NULL);
+	key_group = plugin_set_key_group(plugin, PLUGIN_KEY_NAME, KB_COUNT, NULL);
+	keybindings_set_item(key_group, KB_CTRL_TAB, keyboard_activate, 0, 0, PLUGIN_KEY_NAME, PLUGIN_NAME, NULL);
 
 	document_activation_order_array = g_array_new(FALSE, FALSE, sizeof(guint));
 
@@ -938,7 +939,7 @@ static gboolean ctr_init(GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdata)
 
 
 /**********************************************************************/
-static void ctr_cleanup(G_GNUC_UNUSED GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdata)
+static void cleanup(G_GNUC_UNUSED GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdata)
 {
 	D(log_debug("%s:%s", __FILE__, __FUNCTION__));
 
@@ -957,7 +958,7 @@ void geany_load_module(GeanyPlugin *plugin)
 	plugin->info->description = PLUGIN_DESCRIPTION;
 	plugin->info->version = PLUGIN_VERSION;
 	plugin->info->author = PLUGIN_AUTHOR;
-	plugin->funcs->init = ctr_init;
-	plugin->funcs->cleanup = ctr_cleanup;
+	plugin->funcs->init = init;
+	plugin->funcs->cleanup = cleanup;
 	GEANY_PLUGIN_REGISTER(plugin, 225);
 }
